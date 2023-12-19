@@ -4,7 +4,7 @@ import requests
 
 def lambda_handler(event, context):
     print(event)
-    url = event['data']['object']['payment']['receipt_url']
+    receipt_url = event['data']['object']['payment']['receipt_url']
     temp = event['created_at'].split('T')
     date = temp[0]
     order_id = event['data']['object']['payment']['order_id']
@@ -49,13 +49,15 @@ def lambda_handler(event, context):
     # List of target Lambda functions
     target_functions = [
         'screenshotReceipt',
+        'attachReceiptToUser'
     ]
 
     # Prepare the payload. Note that it's a dictionary with a single key-value pair,
     # where the key is the name of the input parameter that `screenshotReceipt` is expecting.
     payload = json.dumps({
-        'receipt_input': url,
-        'created_at': date # 'receipt_input' is an example. Use the actual parameter name.
+        'receipt_input': receipt_url,
+        'created_at': date, # 'receipt_input' is an example. Use the actual parameter name.
+        'email': email
     }).encode()
 
     print("going to invoke funtions now")
