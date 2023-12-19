@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var isLoggedIn = false
+    @State var isLoggedIn = UserDefaults.standard.bool(forKey: "IsLoggedIn")
     
     var body: some View {
         if isLoggedIn {

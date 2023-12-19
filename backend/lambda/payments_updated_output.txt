@@ -1,0 +1,47 @@
+{
+    'merchant_id': 'ML3N06G6578S4', 
+    'type': 'payment.updated', 
+    'event_id': 'a86b1b78-5639-3a9b-b065-5c414d4e572d', 
+    'created_at': '2023-12-18T23:35:08.606Z', 
+    'data': 
+        {
+            'type': 'payment', 
+            'id': 'J4wnuKzzHLqiBclfb95zEIJxvaB', 
+            'object': 
+                {'payment': 
+                    {'amount_money': 
+                        {
+                         'amount': 0, 
+                         'currency': 'USD'
+                         }, 
+                         'application_details': 
+                            {
+                                'square_product': 'ECOMMERCE_API'
+                            }, 
+                        'cash_details': 
+                        {
+                            'buyer_supplied_money': 
+                            {
+                                'amount': 0, 
+                                'currency': 'USD'
+                             }
+                        }, 
+                        'created_at': '2023-12-18T23:35:06.195Z', 
+                        'id': 'J4wnuKzzHLqiBclfb95zEIJxvaB', 
+                        'location_id': 'LTXCQPSGZFGXD', 
+                        'order_id': '0qDc8QHsfL3KaZx7OJlPZuoH3SWZY', 
+                        'receipt_number': 'J4wn', 
+                        'receipt_url': 'https://squareup.com/receipt/preview/J4wnuKzzHLqiBclfb95zEIJxvaB', 
+                        'source_type': 'CASH', 
+                        'status': 'COMPLETED', 
+                        'total_money': 
+                        {
+                            'amount': 0, 
+                            'currency': 'USD'
+                        }, 
+                        'updated_at': '2023-12-18T23:35:08.605Z', 
+                        'version': 1
+                    }
+                }
+        }
+}

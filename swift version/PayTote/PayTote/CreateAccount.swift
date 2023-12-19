@@ -16,45 +16,28 @@ struct CreateAccount: View {
 
     var body: some View {
         VStack() {
-            Text("Log in")
-                .padding(.top, 20)
-            TextField("Username", text: .constant(""))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .border(Color.blue, width: 2)
+            Text("Sign in with Apple")
             
-            SecureField("Password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .border(Color.blue, width: 2)
-            
-            SecureField("Confirm Password", text: $confirmPassword)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .border(Color.blue, width: 2)
-                .onChange(of: confirmPassword) { _ in
-                    validatePassword()
-                }
-            
-            Text(passwordMessage)
-                .foregroundColor(passwordMessage.contains("not match") ? .red : .green)
-            Spacer()
-            
-            // add google, facebook, apple SSO?
             SignInWithAppleButton(.continue) {request in
-                
+                request.requestedScopes = [.fullName, .email]
             } onCompletion: { result in
                 switch result {
                 case .success(let auth):
                     switch auth.credential {
                     case let credential as ASAuthorizationAppleIDCredential:
-                        let userId = credential.user
+//                        let userId = credential.user
                         
                         //need to cache into AWS or userDefaults
                         let email = credential.email
                         let firstName = credential.fullName?.givenName
                         let lastName = credential.fullName?.familyName
-//                        break
+                        loginStatus = true
+                        
+                        UserDefaults.standard.set(email, forKey: "UserEmail")
+                        UserDefaults.standard.set(firstName, forKey: "UserFirstName")
+                        UserDefaults.standard.set(lastName, forKey: "UserLastName")
+                        UserDefaults.standard.set(true, forKey: "IsLoggedIn")
+                        
                     default:
                         break
                     }
@@ -62,30 +45,27 @@ struct CreateAccount: View {
                     print(error)
                 }
             }
-//            .signInWithAppleButtonStyle(
-//                colorScheme == .dark ? .white : .black
-//            )
             .frame(height: 50)
             .padding()
             .cornerRadius(8)
         }
     }
 
-    private func validatePassword() {
-        if !passwordIsValid(password) {
-            passwordMessage = "Password must be at least 8 characters, include a number and an uppercase letter"
-        } else if password != confirmPassword {
-            passwordMessage = "Passwords do not match"
-        } else {
-            passwordMessage = "Password is valid"
-        }
-    }
-
-    private func passwordIsValid(_ password: String) -> Bool {
-        let passwordRegEx = "^(?=.*[A-Z])(?=.*[0-9]).{8,}$"
-        let passwordPred = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
-        return passwordPred.evaluate(with: password)
-    }
+//    private func validatePassword() {
+//        if !passwordIsValid(password) {
+//            passwordMessage = "Password must be at least 8 characters, include a number and an uppercase letter"
+//        } else if password != confirmPassword {
+//            passwordMessage = "Passwords do not match"
+//        } else {
+//            passwordMessage = "Password is valid"
+//        }
+//    }
+//
+//    private func passwordIsValid(_ password: String) -> Bool {
+//        let passwordRegEx = "^(?=.*[A-Z])(?=.*[0-9]).{8,}$"
+//        let passwordPred = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
+//        return passwordPred.evaluate(with: password)
+//    }
 }
 
 struct CreateAccount_Previews: PreviewProvider {
