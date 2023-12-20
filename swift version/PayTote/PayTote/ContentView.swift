@@ -12,7 +12,9 @@ struct ContentView: View {
     
     var body: some View {
         if isLoggedIn {
-            HomePage()
+            NavigationView {
+                HomePage()
+            }
         }
         else {
             CreateAccount(loginStatus: $isLoggedIn)

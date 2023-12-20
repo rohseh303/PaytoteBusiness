@@ -11,7 +11,7 @@ import Combine
 //import Foundation
 
 struct HomePage: View {
-    
+
     @State private var savedEmail = UserDefaults.standard.string(forKey: "UserEmail")
     @State private var savedFirstName = UserDefaults.standard.string(forKey: "UserFirstName")
     @State private var savedLastName = UserDefaults.standard.string(forKey: "UserLastName")
@@ -20,25 +20,27 @@ struct HomePage: View {
     @ObservedObject var viewModel = APILinksViewModel()
     
     var body: some View {
-        Text("Welcome, \(savedFirstName ?? "Guest"), to the future of your finances")
-        
+//        Text("Welcome, \(savedFirstName ?? "Guest"), to the future of your finances")
         VStack {
-            Text("Fetched Receipts:")
-                .padding(.top)
-            
-            ScrollView {
-                VStack {
-                    ForEach(viewModel.apiLinks, id: \.self) { link in
-                        if let url = URL(string: link) {
-                            AsyncImage(url: url)
-                                .frame(width: 300, height: 300)
-                                .padding(.bottom)
+                    Text("Welcome, \(savedFirstName ?? "Guest"), to the future of your finances")
+                    
+                    VStack {
+                        Text("Fetched Receipts:")
+                            .padding(.top)
+                        
+                        List(viewModel.receipts, id: \.name) { receipt in
+                            NavigationLink(destination: ReceiptDetailView(receipt: receipt)) {
+                                Text(receipt.name)
+                            }
                         }
                     }
-                }
             }
-        }.onAppear(perform: viewModel.fetchAPILinks)
-    }
+            .onAppear {
+                print("calling fetch api links")
+                viewModel.fetchAPILinks()
+                print("View appeared. Fetching receipts.")
+            }
+        }
 }
 
 #Preview {
@@ -88,7 +90,8 @@ struct APIResponse: Decodable {
 }
 
 class APILinksViewModel: ObservableObject {
-    @Published var apiLinks: [String] = []
+    @Published var receipts: [Receipt] = []
+//    @Published var apiLinks: [String] = []
 
     func fetchAPILinks() {
         let apiURL = "https://su605qng12.execute-api.us-west-1.amazonaws.com/v2"
@@ -125,10 +128,10 @@ class APILinksViewModel: ObservableObject {
                         let objectNames = try JSONDecoder().decode([String].self, from: bodyData)
 
                         DispatchQueue.main.async {
-                            self.apiLinks = objectNames.map { objectName in
+                            self.receipts = objectNames.map { objectName in
                                 let imageURL = "https://aaku0fbfpe.execute-api.us-west-1.amazonaws.com/prod/receipts-global/\(objectName)"
                                 print("Image URL: \(imageURL)")
-                                return imageURL
+                                return Receipt(name: objectName, imageURL: imageURL)
                             }
                         }
                     }
