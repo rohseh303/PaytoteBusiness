@@ -104,6 +104,7 @@ class APILinksViewModel: ObservableObject {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        //instead of passing in the email, we have to pass in the unique user identifier
         let requestBody: [String: Any] = ["email": UserDefaults.standard.string(forKey: "UserEmail") ?? "no email"]
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])

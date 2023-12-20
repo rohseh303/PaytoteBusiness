@@ -25,6 +25,8 @@ struct CreateAccount: View {
                     case .success(let auth):
                         switch auth.credential {
                         case let credential as ASAuthorizationAppleIDCredential:
+                            let userID = credential.user
+                            UserDefaults.standard.set(userID, forKey: "userID")
                             if let email = credential.email, let firstName = credential.fullName?.givenName, let lastName = credential.fullName?.familyName {
                                 // Cache user details
                                 UserDefaults.standard.set(email, forKey: "UserEmail")
@@ -34,7 +36,14 @@ struct CreateAccount: View {
                                 
                                 // Perform network request
                                 Task {
-                                    await registerUser(email: email, firstName: firstName, lastName: lastName)
+                                    await registerUser(userID: userID, email: email, firstName: firstName, lastName: lastName)
+                                }
+                            }
+                            else {
+                                // Existing user login
+                                // Perform network request for user login
+                                Task {
+                                    await loginUser(userIdentifier: userID)
                                 }
                             }
                             
@@ -54,7 +63,7 @@ struct CreateAccount: View {
         }
     
     // Asynchronous network request function
-        func registerUser(email: String, firstName: String, lastName: String) async {
+    func registerUser(userID: String, email: String, firstName: String, lastName: String) async {
             // Define the URL for the API endpoint
             guard let url = URL(string: "https://jgz0to3dja.execute-api.us-west-1.amazonaws.com/v1") else {
                 print("Invalid URL")
@@ -68,6 +77,7 @@ struct CreateAccount: View {
 
             // Prepare the JSON data
             let requestData = [
+                "userID": userID,
                 "email": email,
                 "firstName": firstName,
                 "lastName": lastName

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2BBA45A72B30092C0026C46B /* ReceiptInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45A62B30092C0026C46B /* ReceiptInfo.swift */; };
+		2BBA45AB2B32CD0E0026C46B /* LoginUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45AA2B32CD0E0026C46B /* LoginUser.swift */; };
 		2BCD62C82B0AD7C9005B31E0 /* PayToteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD62C72B0AD7C9005B31E0 /* PayToteApp.swift */; };
 		2BCD62CA2B0AD7C9005B31E0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD62C92B0AD7C9005B31E0 /* ContentView.swift */; };
 		2BCD62CC2B0AD7CB005B31E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BCD62CB2B0AD7CB005B31E0 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		2BBA45A62B30092C0026C46B /* ReceiptInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptInfo.swift; sourceTree = "<group>"; };
+		2BBA45AA2B32CD0E0026C46B /* LoginUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUser.swift; sourceTree = "<group>"; };
 		2BCD62C42B0AD7C9005B31E0 /* PayTote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PayTote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BCD62C72B0AD7C9005B31E0 /* PayToteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayToteApp.swift; sourceTree = "<group>"; };
 		2BCD62C92B0AD7C9005B31E0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				2BCD62C92B0AD7C9005B31E0 /* ContentView.swift */,
 				2BCD62D62B0AD8ED005B31E0 /* CreateAccount.swift */,
 				2BCD62D82B0ADAE0005B31E0 /* HomePage.swift */,
+				2BBA45AA2B32CD0E0026C46B /* LoginUser.swift */,
 				2BBA45A52B3009160026C46B /* Receipts */,
 				2BCD62CB2B0AD7CB005B31E0 /* Assets.xcassets */,
 				2BCD62CD2B0AD7CB005B31E0 /* PayTote.entitlements */,
@@ -158,6 +161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BBA45AB2B32CD0E0026C46B /* LoginUser.swift in Sources */,
 				2BBA45A72B30092C0026C46B /* ReceiptInfo.swift in Sources */,
 				2BCD62CA2B0AD7C9005B31E0 /* ContentView.swift in Sources */,
 				2BCD62D72B0AD8ED005B31E0 /* CreateAccount.swift in Sources */,
