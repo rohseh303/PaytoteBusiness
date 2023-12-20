@@ -9,9 +9,6 @@ def lambda_handler(event, context):
     date = temp[0]
     order_id = event['data']['object']['payment']['order_id']
     
-    # # Set your access token
-    # access_token = 'EAAAELEnB5K-QJvm-jydKXzVCtZY4adLihQtxLZPzegmqROguw6SWWIm4zbWSHZt'
-    
     # Set the headers
     headers = {
         'Square-Version': '2023-12-13',
@@ -40,7 +37,7 @@ def lambda_handler(event, context):
             email = fufillments['shipment_details']['recipient']['email_address']
         else:
             email = "ERROR: could not find email and went into else clause"
-        
+
         print("customer's email: ", email)
 
     else:

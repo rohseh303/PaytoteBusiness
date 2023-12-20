@@ -21,12 +21,6 @@ struct HomePage: View {
     
     var body: some View {
         Text("Welcome, \(savedFirstName ?? "Guest"), to the future of your finances")
-            .onAppear {
-                print("Saved Email: \(savedEmail ?? "Not Found")")
-                print("Saved First Name: \(savedFirstName ?? "Not Found")")
-                print("Saved Last Name: \(savedLastName ?? "Not Found")")
-                print("Is Logged In: \(isLoggedIn)")
-            }
         
         VStack {
             Text("Fetched Receipts:")
@@ -95,35 +89,45 @@ struct APIResponse: Decodable {
 
 class APILinksViewModel: ObservableObject {
     @Published var apiLinks: [String] = []
-    
+
     func fetchAPILinks() {
-        let apiURL = "https://su605qng12.execute-api.us-west-1.amazonaws.com/prod" // Replace with your actual API endpoint
-        
+        let apiURL = "https://su605qng12.execute-api.us-west-1.amazonaws.com/v2"
         guard let url = URL(string: apiURL) else {
             print("Invalid API URL.")
             return
         }
-        
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let requestBody: [String: Any] = ["email": UserDefaults.standard.string(forKey: "UserEmail") ?? "no email"]
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+        } catch {
+            print("Error encoding request body: \(error.localizedDescription)")
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { (data, response, error) in  // Updated to use 'request'
             if let error = error {
                 print("Error: \(error.localizedDescription)")
                 return
             }
-            
-            if let data = data {
+
+            if let data = data, let jsonString = String(data: data, encoding: .utf8) {
+                print("JSON String: \(jsonString)")  // Print raw JSON response
+
                 do {
-                    // First decode data as APIResponse
                     let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
-                    
-                    // Then, decode the body of APIResponse as an array of Strings
+
                     if let bodyData = apiResponse.body.data(using: .utf8) {
                         let objectNames = try JSONDecoder().decode([String].self, from: bodyData)
-                        
+
                         DispatchQueue.main.async {
-                            // Build the full URLs from the object names
                             self.apiLinks = objectNames.map { objectName in
                                 let imageURL = "https://aaku0fbfpe.execute-api.us-west-1.amazonaws.com/prod/receipts-global/\(objectName)"
-                                print("Image URL: \(imageURL)") // Print URL for debugging
+                                print("Image URL: \(imageURL)")
                                 return imageURL
                             }
                         }
@@ -135,4 +139,3 @@ class APILinksViewModel: ObservableObject {
         }.resume()
     }
 }
-
