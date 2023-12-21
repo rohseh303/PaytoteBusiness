@@ -8,14 +8,14 @@
 import Foundation
 import SwiftUI
 
-struct Receipt: Identifiable {
+struct fetchedReceipt: Identifiable {
     var id = UUID() // Unique identifier for each receipt
     var name: String
     var imageURL: String
 }
 
-struct ReceiptDetailView: View {
-    var receipt: Receipt
+struct fetchedReceiptDetailView: View {
+    var receipt: fetchedReceipt
 
     var body: some View {
         GeometryReader { geometry in

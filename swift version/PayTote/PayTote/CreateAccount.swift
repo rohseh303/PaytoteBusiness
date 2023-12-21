@@ -26,6 +26,7 @@ struct CreateAccount: View {
                         switch auth.credential {
                         case let credential as ASAuthorizationAppleIDCredential:
                             let userID = credential.user
+                            print("userID: ", userID)
                             UserDefaults.standard.set(userID, forKey: "userID")
                             if let email = credential.email, let firstName = credential.fullName?.givenName, let lastName = credential.fullName?.familyName {
                                 // Cache user details

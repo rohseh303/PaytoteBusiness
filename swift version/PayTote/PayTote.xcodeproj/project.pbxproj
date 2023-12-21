@@ -8,18 +8,40 @@
 
 /* Begin PBXBuildFile section */
 		2BBA45A72B30092C0026C46B /* ReceiptInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45A62B30092C0026C46B /* ReceiptInfo.swift */; };
-		2BBA45AB2B32CD0E0026C46B /* LoginUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45AA2B32CD0E0026C46B /* LoginUser.swift */; };
+		2BBA45AB2B32CD0E0026C46B /* LoginFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45AA2B32CD0E0026C46B /* LoginFunctions.swift */; };
+		2BBA45AE2B33BECC0026C46B /* Scanners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45AD2B33BECC0026C46B /* Scanners.swift */; };
+		2BBA45B02B33BED90026C46B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45AF2B33BED90026C46B /* Settings.swift */; };
+		2BBA45B22B33BF590026C46B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45B12B33BF590026C46B /* UserSettings.swift */; };
+		2BBA45B42B33BFED0026C46B /* Passcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45B32B33BFED0026C46B /* Passcode.swift */; };
+		2BBA45B62B33BFF90026C46B /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45B52B33BFF90026C46B /* UtilityFunctions.swift */; };
+		2BBA45B82B33BFFE0026C46B /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45B72B33BFFE0026C46B /* Receipt.swift */; };
+		2BBA45BA2B33C0030026C46B /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45B92B33C0030026C46B /* Folder.swift */; };
+		2BBA45BC2B33C0090026C46B /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45BB2B33C0090026C46B /* Prediction.swift */; };
+		2BBA45BE2B33C00E0026C46B /* ScanTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45BD2B33C00E0026C46B /* ScanTranslation.swift */; };
+		2BBA45C02B33C0180026C46B /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45BF2B33C0180026C46B /* Persistence.swift */; };
+		2BBA45C72B33C2880026C46B /* COSC345_Project.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA45C52B33C2880026C46B /* COSC345_Project.xcdatamodeld */; };
 		2BCD62C82B0AD7C9005B31E0 /* PayToteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD62C72B0AD7C9005B31E0 /* PayToteApp.swift */; };
 		2BCD62CA2B0AD7C9005B31E0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD62C92B0AD7C9005B31E0 /* ContentView.swift */; };
 		2BCD62CC2B0AD7CB005B31E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BCD62CB2B0AD7CB005B31E0 /* Assets.xcassets */; };
 		2BCD62D02B0AD7CB005B31E0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BCD62CF2B0AD7CB005B31E0 /* Preview Assets.xcassets */; };
 		2BCD62D72B0AD8ED005B31E0 /* CreateAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD62D62B0AD8ED005B31E0 /* CreateAccount.swift */; };
-		2BCD62D92B0ADAE0005B31E0 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD62D82B0ADAE0005B31E0 /* HomePage.swift */; };
+		2BCD62D92B0ADAE0005B31E0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD62D82B0ADAE0005B31E0 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2BBA45A62B30092C0026C46B /* ReceiptInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptInfo.swift; sourceTree = "<group>"; };
-		2BBA45AA2B32CD0E0026C46B /* LoginUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUser.swift; sourceTree = "<group>"; };
+		2BBA45AA2B32CD0E0026C46B /* LoginFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFunctions.swift; sourceTree = "<group>"; };
+		2BBA45AD2B33BECC0026C46B /* Scanners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scanners.swift; sourceTree = "<group>"; };
+		2BBA45AF2B33BED90026C46B /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		2BBA45B12B33BF590026C46B /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		2BBA45B32B33BFED0026C46B /* Passcode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Passcode.swift; sourceTree = "<group>"; };
+		2BBA45B52B33BFF90026C46B /* UtilityFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
+		2BBA45B72B33BFFE0026C46B /* Receipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
+		2BBA45B92B33C0030026C46B /* Folder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
+		2BBA45BB2B33C0090026C46B /* Prediction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
+		2BBA45BD2B33C00E0026C46B /* ScanTranslation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanTranslation.swift; sourceTree = "<group>"; };
+		2BBA45BF2B33C0180026C46B /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		2BBA45C62B33C2880026C46B /* COSC345_Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = COSC345_Project.xcdatamodel; sourceTree = "<group>"; };
 		2BCD62C42B0AD7C9005B31E0 /* PayTote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PayTote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BCD62C72B0AD7C9005B31E0 /* PayToteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayToteApp.swift; sourceTree = "<group>"; };
 		2BCD62C92B0AD7C9005B31E0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -27,7 +49,7 @@
 		2BCD62CD2B0AD7CB005B31E0 /* PayTote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PayTote.entitlements; sourceTree = "<group>"; };
 		2BCD62CF2B0AD7CB005B31E0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2BCD62D62B0AD8ED005B31E0 /* CreateAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccount.swift; sourceTree = "<group>"; };
-		2BCD62D82B0ADAE0005B31E0 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
+		2BCD62D82B0ADAE0005B31E0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2BCD62DA2B0AE97B005B31E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,10 +93,21 @@
 			children = (
 				2BCD62DA2B0AE97B005B31E0 /* Info.plist */,
 				2BCD62C72B0AD7C9005B31E0 /* PayToteApp.swift */,
-				2BCD62C92B0AD7C9005B31E0 /* ContentView.swift */,
+				2BBA45C52B33C2880026C46B /* COSC345_Project.xcdatamodeld */,
 				2BCD62D62B0AD8ED005B31E0 /* CreateAccount.swift */,
-				2BCD62D82B0ADAE0005B31E0 /* HomePage.swift */,
-				2BBA45AA2B32CD0E0026C46B /* LoginUser.swift */,
+				2BCD62C92B0AD7C9005B31E0 /* ContentView.swift */,
+				2BBA45B32B33BFED0026C46B /* Passcode.swift */,
+				2BCD62D82B0ADAE0005B31E0 /* HomeView.swift */,
+				2BBA45AF2B33BED90026C46B /* Settings.swift */,
+				2BBA45AD2B33BECC0026C46B /* Scanners.swift */,
+				2BBA45B52B33BFF90026C46B /* UtilityFunctions.swift */,
+				2BBA45B72B33BFFE0026C46B /* Receipt.swift */,
+				2BBA45B92B33C0030026C46B /* Folder.swift */,
+				2BBA45BB2B33C0090026C46B /* Prediction.swift */,
+				2BBA45BD2B33C00E0026C46B /* ScanTranslation.swift */,
+				2BBA45B12B33BF590026C46B /* UserSettings.swift */,
+				2BBA45BF2B33C0180026C46B /* Persistence.swift */,
+				2BBA45AA2B32CD0E0026C46B /* LoginFunctions.swift */,
 				2BBA45A52B3009160026C46B /* Receipts */,
 				2BCD62CB2B0AD7CB005B31E0 /* Assets.xcassets */,
 				2BCD62CD2B0AD7CB005B31E0 /* PayTote.entitlements */,
@@ -161,12 +194,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BBA45AB2B32CD0E0026C46B /* LoginUser.swift in Sources */,
+				2BBA45B82B33BFFE0026C46B /* Receipt.swift in Sources */,
+				2BBA45C02B33C0180026C46B /* Persistence.swift in Sources */,
+				2BBA45AB2B32CD0E0026C46B /* LoginFunctions.swift in Sources */,
+				2BBA45B62B33BFF90026C46B /* UtilityFunctions.swift in Sources */,
+				2BBA45B42B33BFED0026C46B /* Passcode.swift in Sources */,
+				2BBA45BC2B33C0090026C46B /* Prediction.swift in Sources */,
 				2BBA45A72B30092C0026C46B /* ReceiptInfo.swift in Sources */,
+				2BBA45BA2B33C0030026C46B /* Folder.swift in Sources */,
+				2BBA45B02B33BED90026C46B /* Settings.swift in Sources */,
+				2BBA45C72B33C2880026C46B /* COSC345_Project.xcdatamodeld in Sources */,
 				2BCD62CA2B0AD7C9005B31E0 /* ContentView.swift in Sources */,
+				2BBA45B22B33BF590026C46B /* UserSettings.swift in Sources */,
+				2BBA45AE2B33BECC0026C46B /* Scanners.swift in Sources */,
 				2BCD62D72B0AD8ED005B31E0 /* CreateAccount.swift in Sources */,
 				2BCD62C82B0AD7C9005B31E0 /* PayToteApp.swift in Sources */,
-				2BCD62D92B0ADAE0005B31E0 /* HomePage.swift in Sources */,
+				2BCD62D92B0ADAE0005B31E0 /* HomeView.swift in Sources */,
+				2BBA45BE2B33C00E0026C46B /* ScanTranslation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +433,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2BBA45C52B33C2880026C46B /* COSC345_Project.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2BBA45C62B33C2880026C46B /* COSC345_Project.xcdatamodel */,
+			);
+			currentVersion = 2BBA45C62B33C2880026C46B /* COSC345_Project.xcdatamodel */;
+			path = COSC345_Project.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2BCD62BC2B0AD7C9005B31E0 /* Project object */;
 }

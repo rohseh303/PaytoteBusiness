@@ -29,7 +29,7 @@ struct HomePage: View {
                             .padding(.top)
                         
                         List(viewModel.receipts, id: \.name) { receipt in
-                            NavigationLink(destination: ReceiptDetailView(receipt: receipt)) {
+                            NavigationLink(destination: fetchedReceiptDetailView(receipt: receipt)) {
                                 Text(receipt.name)
                             }
                         }
@@ -90,7 +90,7 @@ struct APIResponse: Decodable {
 }
 
 class APILinksViewModel: ObservableObject {
-    @Published var receipts: [Receipt] = []
+    @Published var receipts: [fetchedReceipt] = []
 //    @Published var apiLinks: [String] = []
 
     func fetchAPILinks() {
@@ -132,7 +132,7 @@ class APILinksViewModel: ObservableObject {
                             self.receipts = objectNames.map { objectName in
                                 let imageURL = "https://aaku0fbfpe.execute-api.us-west-1.amazonaws.com/prod/receipts-global/\(objectName)"
                                 print("Image URL: \(imageURL)")
-                                return Receipt(name: objectName, imageURL: imageURL)
+                                return fetchedReceipt(name: objectName, imageURL: imageURL)
                             }
                         }
                     }
