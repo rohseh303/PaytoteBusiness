@@ -265,6 +265,8 @@ struct ReceiptViewButtons: View {
 
 /// Extension of the Receipt object.
 extension Receipt {
+    
+    
     ///``saveScan``
     /// takes in an image and recognized text and applies it to a Receipt variable to be saved to the database.
     /// - Parameter recognizedText: The text from the scanned image, to be placed into a receipt variable.

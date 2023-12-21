@@ -19,7 +19,10 @@ struct ContentView: View {
 //                HomePage()
 //            }
             TabView(selection: $selectedTab.selection){
-                HomePage()
+//                NavigationView{
+//                    HomePage()
+//                }
+                HomeView()
                     .tabItem { Label("Home", systemImage: "magnifyingglass") }
                     .tag(0)
                 ScanView()

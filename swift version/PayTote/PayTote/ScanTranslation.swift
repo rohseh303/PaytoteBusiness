@@ -25,6 +25,7 @@ struct ScanTranslation {
     /// is a function that is used to recognize text in the scannedImages parameter of the ScanTranslation struct.
     /// It loops through all images in scannedImages, creates a ReceiptItem, and sets the image to the ReceiptItem before calling getTextRecognitionRequest to extract and set the images text.
     func recognizeText() {
+        print("recognizeText function called")
         let queue = DispatchQueue(label: "textRecognitionQueue", qos: .userInitiated)
         queue.async {
             for image in scannedImages {
