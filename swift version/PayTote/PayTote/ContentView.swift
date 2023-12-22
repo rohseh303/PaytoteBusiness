@@ -26,7 +26,7 @@ struct ContentView: View {
                     .tabItem { Label("Home", systemImage: "house") }
                     .tag(0)
                 ScanView()
-                    .tabItem { Label("Scan", systemImage: "plus") }
+                    .tabItem { Label("Scan", systemImage: "doc.text.viewfinder") }
                     .tag(1)
                 SettingsView()
                     .tabItem { Label("Settings", systemImage: "gearshape.fill").foregroundColor(Color("text")) }

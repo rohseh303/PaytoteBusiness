@@ -102,7 +102,7 @@ struct ScanView: View {
         } else if scanSelection == .gallery {
             return "photo"
         }
-        return "plus"
+        return "doc.text.viewfinder"
     }
 }
 
