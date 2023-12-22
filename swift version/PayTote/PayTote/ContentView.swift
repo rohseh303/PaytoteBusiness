@@ -23,7 +23,7 @@ struct ContentView: View {
 //                    HomePage()
 //                }
                 HomeView()
-                    .tabItem { Label("Home", systemImage: "magnifyingglass") }
+                    .tabItem { Label("Home", systemImage: "house") }
                     .tag(0)
                 ScanView()
                     .tabItem { Label("Scan", systemImage: "plus") }

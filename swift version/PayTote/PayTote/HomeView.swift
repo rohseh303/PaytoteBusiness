@@ -155,7 +155,7 @@ struct HomeTitleBar: View {
                 if selectedFolder.isEmpty {
                     ZStack(alignment: .leading) {
                         if userSearch.isEmpty {
-                            Text("PayTote.")
+                            Text("PayTote")
                                 .font(.system(size: 40, weight: .semibold))
                                 .foregroundColor(Color("text"))
                                 .transition(AnyTransition.opacity.combined(with: .move(edge: .bottom)))
