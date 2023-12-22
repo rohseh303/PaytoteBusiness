@@ -87,12 +87,12 @@ struct DarkModeButton: View {
                     VStack {
                         Spacer()
                         if settings.darkMode {
-                            Image(systemName: "moon.fill")
+                            Image(systemName: "moon")
                                 .font(.largeTitle)
                                 .foregroundColor(Color(settings.accentColor))
                                 .transition(AnyTransition.scale(scale: 0.5).combined(with: .opacity))
                         } else {
-                            Image(systemName: "sun.max.fill")
+                            Image(systemName: "sun.max")
                                 .font(.largeTitle)
                                 .transition(AnyTransition.scale(scale: 0.5).combined(with: .opacity))
                                 
@@ -149,7 +149,7 @@ struct ScanDefaultSelector: View {
                                 }
                                 hapticFeedback(type: .rigid)
                             }){
-                                Image(systemName: "plus")
+                                Image(systemName: "doc.text.viewfinder")
                                     .font(.largeTitle)
                                     .foregroundColor(Color(ScanDefault.choose.rawValue == settings.scanDefault ? settings.accentColor : "accentAlt"))
                                     .scaleEffect(ScanDefault.choose.rawValue == settings.scanDefault ? 1.25 : 1)
