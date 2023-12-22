@@ -29,7 +29,7 @@ struct ContentView: View {
                     .tabItem { Label("Scan", systemImage: "plus") }
                     .tag(1)
                 SettingsView()
-                    .tabItem { Label("Settings", systemImage: "hammer.fill").foregroundColor(Color("text")) }
+                    .tabItem { Label("Settings", systemImage: "gearshape.fill").foregroundColor(Color("text")) }
                     .tag(2)
             }//.onAppear(perform: { locked = settings.passcodeProtection }) // passcode protection if settings enabled
 //            .fullScreenCover(isPresented: $locked, content: {
@@ -84,7 +84,7 @@ struct TitleText: View {
     var body: some View {
         HStack {
             HStack {
-                Text("\(title.capitalized).")
+                Text("\(title.capitalized)")
                     .font(.system(size: 40, weight: .semibold))
                     .foregroundColor(Color("text"))
                     .transition(AnyTransition.opacity.combined(with: .move(edge: .bottom)))

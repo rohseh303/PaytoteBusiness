@@ -7,6 +7,7 @@
 
 import CoreData
 import SwiftUI
+import MessageUI
 
 /// ``SettingsView``
 /// is a View struct that imports the UserSettings and displays a range of toggles/buttons/pickers that alter the UserSettings upon user action.
@@ -15,13 +16,16 @@ import SwiftUI
 struct SettingsView: View  {
     ///``settings``: Imports the UserSettings environment object allowing unified usage and updating of the users settings across all classes.
     @EnvironmentObject var settings: UserSettings
+
+    @State private var isShowingMailView = false
+    @State private var result: Result<MFMailComposeResult, Error>? = nil
    
     var body: some View {
         ZStack {
             BackgroundView()
             
             VStack {
-                TitleText(buttonBool: $settings.devMode, title: "settings", icon: "hammer.fill")
+                TitleText(buttonBool: $settings.devMode, title: "settings", icon: "gearshape.fill")
                     .padding(.horizontal)
                 
                 ScrollView(showsIndicators: false){
@@ -32,128 +36,33 @@ struct SettingsView: View  {
                                 .frame(height: UIScreen.screenHeight * 0.2)
                         }
                         
-                        // passcode selector
-                        PasscodeSelector()
-                            .frame(height: UIScreen.screenHeight * 0.2)
-                        
                         // scan selector
                         ScanDefaultSelector()
                             .frame(height: UIScreen.screenHeight * 0.2)
                         
                         // color
-                        AccentColorSelector()
-                            .frame(height: UIScreen.screenHeight * 0.2)
+//                        AccentColorSelector()
+//                            .frame(height: UIScreen.screenHeight * 0.2)
+                        if MFMailComposeViewController.canSendMail() {
+                                        Button("Send Email") {
+                                            self.isShowingMailView = true
+                                        }
+                                        .sheet(isPresented: $isShowingMailView) {
+                                            MailView(isShowing: self.$isShowingMailView, result: self.$result, recipients: ["example@example.com"], subject: "Store Integration Request", body: "Here is an example email body.")
+                                        }
+                                    } else {
+                                        ContactUsView()
+                                            .frame(height: UIScreen.screenHeight * 0.2)
+                                        // Optionally provide alternative contact methods here
+                                    }
                     }.padding(.horizontal).padding(.bottom)
                     
-                    if settings.devMode {
-                        DeveloperSettings()
-                    }
+//                    if settings.devMode {
+//                        DeveloperSettings()
+//                    }
                 }.animation(.easeInOut)
             }
         }
-    }
-}
-
-/// ``PasscodeSelector``
-/// is a View struct that allows a user to manage their passcodes. This includes the option to enable, disable, and update passcodes.
-/// - Called by SettingsView.
-struct PasscodeSelector: View {
-    ///``settings``: Imports the UserSettings environment object allowing unified usage and updating of the users settings across all classes.
-    @EnvironmentObject var settings: UserSettings
-    
-    ///``passState``: is used to control the passcode editing state (cereating, updating, removing)
-    @State var passState: PassEditingState = .none
-    
-    ///``passEditScreen``: is used to control the fullscreen passcodeEdit view. Editing managed the fullscreen presentation, and expected code controls the edit type to be passed through (cereating, updating, removing)
-    @State var passEditScreen = (editing: false, expectedCode: "0000")
-    
-    ///``passcodeSuccess``: is used to hold the result of a passcode edit result.
-    @State var passcodeSuccess = (success: false, code: "")
-    
-    var body: some View {
-        
-        Blur(effect: UIBlurEffect(style: .systemThinMaterial))
-            .opacity(0.9)
-            .cornerRadius(12)
-            .overlay(
-                VStack {
-                    HStack {
-                        if settings.passcodeProtection { Spacer() }
-                        
-                        Button(action: {
-                            if settings.passcodeProtection { // remove protection
-                                passcodeSuccess.code = ""
-                                passcodeSuccess.success = false
-                                
-                                passState = .removing
-                                passEditScreen.expectedCode = settings.passcode
-                                passEditScreen.editing = true
-                            } else { // enable protection
-                                passcodeSuccess.code = ""
-                                passcodeSuccess.success = false
-                                
-                                passState = .creating
-                                passEditScreen.expectedCode = passState.rawValue
-                                passEditScreen.editing = true
-                            }
-                        }){
-                            ZStack {
-                                if settings.passcodeProtection {
-                                    Image(systemName: "shield.fill")
-                                        .foregroundColor(Color(settings.accentColor == "UIContrast" ? "accentAlt" : settings.accentColor))
-                                        .font(.system(size: 55))
-                                }
-                                Image(systemName: settings.passcodeProtection ? "lock.fill" : "shield.slash.fill")
-                                    .foregroundColor(Color(settings.passcodeProtection ? "text" : "accentAlt"))
-                                    .font(.system(size: settings.passcodeProtection ? 30 : 45))
-                                .animation(.easeInOut)
-                            }
-                        }.buttonStyle(ShrinkingButton())
-                        
-                        if settings.passcodeProtection {
-                            Spacer()
-                            Button(action: { // update passcode
-                                passcodeSuccess.code = ""
-                                passcodeSuccess.success = false
-                                
-                                passState = .updating
-                                passEditScreen.expectedCode = passState.rawValue
-                                passEditScreen.editing = true
-                            }){
-                                Image(systemName: "lock.rotation")
-                                    .font(.system(size: 45))
-                                    .animation(.easeInOut)
-                            }.buttonStyle(ShrinkingButton())
-                            .transition(AnyTransition.offset(x: -35).combined(with: .opacity))
-                            Spacer()
-                        }
-                    }.padding(.bottom).animation(.spring())
-                    Text("PASSCODE \(settings.passcodeProtection ? "ENABLED" : "DISABLED") \(settings.devMode ? "[\(settings.passcode)]" : "")")
-                        .bold()
-                        .font(.system(.body, design: .rounded))
-                }.padding()
-            ).padding(.bottom)
-            .onChange(of: passcodeSuccess.success){ _ in
-                if passcodeSuccess.success {
-                    if passState == .updating || passState == .creating { // new code
-                        settings.passcodeProtection = true
-                        settings.passcode = passcodeSuccess.code
-                    } else if passState == .removing { // remove code
-                        settings.passcodeProtection = false
-                        settings.passcode = ""
-                    }
-                    passState = .none
-                    passEditScreen.editing = false
-                }
-            }
-            .fullScreenCover(isPresented: $passEditScreen.editing, content: {
-                PasscodeEdit(result: $passcodeSuccess, editType: passEditScreen.expectedCode)
-                    .environmentObject(UserSettings())
-                    .preferredColorScheme(settings.darkMode ? .dark : .light)
-                    .onDisappear(perform: {
-                        passState = .none
-                    })
-            })
     }
 }
 
@@ -433,3 +342,108 @@ struct DeveloperSettings: View {
         .padding(.horizontal).padding(.bottom, 20)
     }
 }
+
+struct MailView: UIViewControllerRepresentable {
+    @Environment(\.presentationMode) var presentation
+    @Binding var isShowing: Bool
+    @Binding var result: Result<MFMailComposeResult, Error>?
+    var recipients: [String]
+    var subject: String
+    var body: String
+
+    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+        @Binding var isShowing: Bool
+        @Binding var result: Result<MFMailComposeResult, Error>?
+
+        init(isShowing: Binding<Bool>, result: Binding<Result<MFMailComposeResult, Error>?>) {
+            _isShowing = isShowing
+            _result = result
+        }
+
+        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+            defer {
+                isShowing = false
+            }
+            if let error = error {
+                self.result = .failure(error)
+                return
+            }
+            self.result = .success(result)
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(isShowing: $isShowing, result: $result)
+    }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
+        let vc = MFMailComposeViewController()
+        vc.mailComposeDelegate = context.coordinator
+        vc.setToRecipients(recipients)
+        vc.setSubject(subject)
+        vc.setMessageBody(body, isHTML: false)
+        return vc
+    }
+
+    func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: UIViewControllerRepresentableContext<MailView>) {
+    }
+}
+
+// ContactUsButton View
+struct ContactUsView: View {
+    var body: some View {
+        Blur(effect: UIBlurEffect(style: .systemThinMaterial))
+            .opacity(0.9)
+            .cornerRadius(12)
+            .overlay(
+                VStack {
+                    Spacer().frame(height: 20) // Add some space at the top
+                    Text("For any inquiries, please contact us:")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                    
+                    Button(action: {
+                        // Handle action for contacting
+                    }) {
+                        HStack {
+                            Image(systemName: "envelope")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20)
+                                .foregroundColor(.blue)
+                            Text("paytoteforbusiness@gmail.com")
+                        }
+                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    .foregroundColor(.primary)
+                    
+                    Button(action: {
+                        // Handle action for opening website
+                    }) {
+                        HStack {
+                            Image(systemName: "network")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20)
+                                .foregroundColor(.blue)
+                            Text("www.example.com")
+                        }
+                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    .foregroundColor(.primary)
+                    
+                    Spacer() // Push everything to the top
+                }
+//                .padding()
+//                .background(Color.white)
+//                .cornerRadius(15)
+//                .shadow(radius: 5)
+//                .padding()
+        )
+    }
+}
+
