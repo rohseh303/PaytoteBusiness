@@ -87,7 +87,7 @@ app.post('/complete_order', (req, res) => {
                 .then(json => {
                     console.log(json);
                     res.send(json);
-                    let invoiceNumber = '0001'
+                    // let invoiceNumber = '0001'
                     // MY INSERTIONS HERE - FIRST CREATE INVOICE NUMBER
                     fetch('https://api-m.sandbox.paypal.com/v2/invoicing/generate-next-invoice-number', {
                         method: 'POST',
@@ -100,37 +100,79 @@ app.post('/complete_order', (req, res) => {
                     .then(data => {
                         console.log(data); // Handle the data (e.g., the invoice number) here
                         let invoiceNumber = data['invoice_number']
-                        // console.log("invoiceNum: ", invoiceNumber)
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
+                        console.log("invoiceNum: ", invoiceNumber)
 
+                        // ONCE YOU CREATE INVOICE NUM, CREATE THE INVOICE
+                        fetch('https://api-m.sandbox.paypal.com/v2/invoicing/invoices', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${access_token}`,
+                                'Content-Type': 'application/json',
+                                'Prefer': 'return=representation'
+                            },
+                            body: JSON.stringify({ "detail": {
+                                                     "invoice_number": invoiceNumber, 
+                                                     "reference": "deal-ref", 
+                                                     "invoice_date": "2018-11-12", 
+                                                     "currency_code": "USD", 
+                                                     "note": "Thank you for your business.", 
+                                                     "term": "No refunds after 30 days.", 
+                                                     "memo": "This is a long contract", 
+                                                     "payment_term": { "term_type": "NET_10", "due_date": "2018-11-22" } }, 
+                                                     "invoicer": { "name": { "given_name": "Rohan", "surname": "Sehgal" }, 
+                                                     "email_address": "sb-e9ro628887181@business.example.com", 
+                                                     "phones": [ { "country_code": "001", "national_number": "4087025863", "phone_type": "MOBILE" } ], 
+                                                     "website": "www.test.com", 
+                                                     "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy- Jb5SeuGj185MNNw6g", 
+                                                     "logo_url": "https://example.com/logo.PNG", 
+                                                     "additional_notes": "2-4" }, 
+                                                     "primary_recipients": [ { "billing_info": { "name": { 
+                                                                                    "given_name": "Stephanie", "surname": "Meyers" }, 
+                                                                                    "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, 
+                                                                                    "email_address": "bill-me@example.com", 
+                                                                                    "phones": [ { "country_code": "001", "national_number": "4884551234", "phone_type": "HOME" } ], "additional_info_value": "add-info" }, 
+                                                                                    "shipping_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" } } 
+                                                                                } ], 
+                                                                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("CREATED INVOICE, time to get receipt")
+                            console.log("invoice_id: ", data)
+                            let invoice_id = data['id']
+                            console.log("the invoice data with no extra json data: ", invoice_id)
 
-                    // ONCE YOU CREATE INVOICE NUM, CREATE THE INVOICE
-                    fetch('https://api-m.sandbox.paypal.com/v2/invoicing/invoices', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${access_token}`,
-                            'Content-Type': 'application/json',
-                            'Prefer': 'return=representation'
-                        },
-                        body: JSON.stringify({ "detail": { "invoice_number": invoiceNumber, "reference": "deal-ref", "invoice_date": "2018-11-12", "currency_code": "USD", "note": "Thank you for your business.", "term": "No refunds after 30 days.", "memo": "This is a long contract", "payment_term": { "term_type": "NET_10", "due_date": "2018-11-22" } }, "invoicer": { "name": { "given_name": "David", "surname": "Larusso" }, "address": { "address_line_1": "1234 First Street", "address_line_2": "337673 Hillside Court", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, "email_address": "merchant@example.com", "phones": [ { "country_code": "001", "national_number": "4085551234", "phone_type": "MOBILE" } ], "website": "www.test.com", "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy- Jb5SeuGj185MNNw6g", "logo_url": "https://example.com/logo.PNG", "additional_notes": "2-4" }, "primary_recipients": [ { "billing_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, "email_address": "bill-me@example.com", "phones": [ { "country_code": "001", "national_number": "4884551234", "phone_type": "HOME" } ], "additional_info_value": "add-info" }, "shipping_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" } } } ], "items": [ { "name": "Yoga Mat", "description": "Elastic mat to practice yoga.", "quantity": "1", "unit_amount": { "currency_code": "USD", "value": "50.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" }, "discount": { "percent": "5" }, "unit_of_measure": "QUANTITY" }, { "name": "Yoga t-shirt", "quantity": "1", "unit_amount": { "currency_code": "USD", "value": "10.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" }, "discount": { "amount": { "currency_code": "USD", "value": "5.00" } }, "unit_of_measure": "QUANTITY" } ], "configuration": { "partial_payment": { "allow_partial_payment": true, "minimum_amount_due": { "currency_code": "USD", "value": "20.00" } }, "allow_tip": true, "tax_calculated_after_discount": true, "tax_inclusive": false, "template_id": "TEMP-19V05281TU309413B" }, "amount": { "breakdown": { "custom": { "label": "Packing Charges", "amount": { "currency_code": "USD", "value": "10.00" } }, "shipping": { "amount": { "currency_code": "USD", "value": "10.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" } }, "discount": { "invoice_discount": { "percent": "5" } } } } })
-                    }); 
-                    console.log("CREATED INVOICE, time to get receipt")
+                            // // CREATE THE RECEIPT
+                            // fetch(`https://api-m.paypal.com/v1/sales/transactions/${invoice_id}/receipt`, {
+                            //     method: 'GET',
+                            //     headers: {
+                            //         'Authorization': `Bearer ${access_token}`,
+                            //         'Content-Type': 'application/json'
+                            //     }
+                            // })
+                            // .then(response => response.json())
+                            // .then(data => {
+                            //     console.log("response: ", data); // Handle the data (e.g., the receipt details) here
+                            //     // You can process the receipt details as needed
+                            // })
+                            // .catch(error => {
+                            //     console.error('Error:', error);
+                            // });
 
-                    // CREATE THE RECEIPT
-                    fetch(`https://api-m.paypal.com/v1/sales/transactions/${invoiceNumber}/receipt`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${access_token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data); // Handle the data (e.g., the receipt details) here
-                        // You can process the receipt details as needed
+                            fetch(`https://api-m.sandbox.paypal.com/v2/invoicing/invoices/${invoice_id}/send`, {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Bearer ${access_token}`,
+                                    'Content-Type': 'application/json',
+                                    'PayPal-Request-Id': 'b1d1f06c7246c'
+                                },
+                                body: JSON.stringify({ "send_to_invoicer": true , "send_to_recipient": false})
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data)
+                            });
+                        }); 
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -144,70 +186,136 @@ app.post('/complete_order', (req, res) => {
         })
 });
 
-app.post('/complete_order', async (req, res) => {
-    try {
-        const access_token = await get_access_token();
+// app.post('/complete_order', async (req, res) => {
+//     try {
+//         const access_token = await get_access_token();
 
-        // Complete the order
-        const orderResponse = await fetch(endpoint_url + '/v2/checkout/orders/' + req.body.order_id + '/' + req.body.intent, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${access_token}`
-            }
-        });
-        const orderJson = await orderResponse.json();
-        console.log(orderJson);
+//         // Complete the order
+//         const orderResponse = await fetch(endpoint_url + '/v2/checkout/orders/' + req.body.order_id + '/' + req.body.intent, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${access_token}`
+//             }
+//         });
+//         const orderJson = await orderResponse.json();
+//         console.log(orderJson);
 
-        // Generate next invoice number
-        const invoiceResponse = await fetch('https://api-m.sandbox.paypal.com/v2/invoicing/generate-next-invoice-number', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${access_token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        const invoiceData = await invoiceResponse.json();
-        let invoiceNumber = invoiceData['invoice_number'];
-        console.log({ invoice_number: invoiceNumber });
+//         // Generate next invoice number
+//         const invoiceResponse = await fetch('https://api-m.sandbox.paypal.com/v2/invoicing/generate-next-invoice-number', {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${access_token}`,
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//         const invoiceData = await invoiceResponse.json();
+//         let invoiceNumber = invoiceData['invoice_number'];
+//         console.log({ invoice_number: invoiceNumber });
 
-        // Create the invoice
-        // Note: Ensure the invoiceNumber is used correctly in the invoice creation payload
-        const invoiceCreationResponse = await fetch('https://api-m.sandbox.paypal.com/v2/invoicing/invoices', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${access_token}`,
-                'Content-Type': 'application/json',
-                'Prefer': 'return=representation'
-            },
-            body: JSON.stringify({
-                // ... Your invoice creation payload goes here
-                // Make sure to use invoiceNumber correctly here
-                "detail": { "invoice_number": invoiceNumber, "reference": "deal-ref", "invoice_date": "2018-11-12", "currency_code": "USD", "note": "Thank you for your business.", "term": "No refunds after 30 days.", "memo": "This is a long contract", "payment_term": { "term_type": "NET_10", "due_date": "2018-11-22" } }, "invoicer": { "name": { "given_name": "David", "surname": "Larusso" }, "address": { "address_line_1": "1234 First Street", "address_line_2": "337673 Hillside Court", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, "email_address": "merchant@example.com", "phones": [ { "country_code": "001", "national_number": "4085551234", "phone_type": "MOBILE" } ], "website": "www.test.com", "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy- Jb5SeuGj185MNNw6g", "logo_url": "https://example.com/logo.PNG", "additional_notes": "2-4" }, "primary_recipients": [ { "billing_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, "email_address": "bill-me@example.com", "phones": [ { "country_code": "001", "national_number": "4884551234", "phone_type": "HOME" } ], "additional_info_value": "add-info" }, "shipping_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" } } } ], "items": [ { "name": "Yoga Mat", "description": "Elastic mat to practice yoga.", "quantity": "1", "unit_amount": { "currency_code": "USD", "value": "50.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" }, "discount": { "percent": "5" }, "unit_of_measure": "QUANTITY" }, { "name": "Yoga t-shirt", "quantity": "1", "unit_amount": { "currency_code": "USD", "value": "10.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" }, "discount": { "amount": { "currency_code": "USD", "value": "5.00" } }, "unit_of_measure": "QUANTITY" } ], "configuration": { "partial_payment": { "allow_partial_payment": true, "minimum_amount_due": { "currency_code": "USD", "value": "20.00" } }, "allow_tip": true, "tax_calculated_after_discount": true, "tax_inclusive": false, "template_id": "TEMP-19V05281TU309413B" }, "amount": { "breakdown": { "custom": { "label": "Packing Charges", "amount": { "currency_code": "USD", "value": "10.00" } }, "shipping": { "amount": { "currency_code": "USD", "value": "10.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" } }, "discount": { "invoice_discount": { "percent": "5" } } } }
-            })
-        });
-        const invoiceCreationJson = await invoiceCreationResponse.json();
-        console.log("Invoice Created:", invoiceCreationJson);
+//         // Create the invoice
+//         // Note: Ensure the invoiceNumber is used correctly in the invoice creation payload
+//         const invoiceCreationResponse = await fetch('https://api-m.sandbox.paypal.com/v2/invoicing/invoices', {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${access_token}`,
+//                 'Content-Type': 'application/json',
+//                 'Prefer': 'return=representation'
+//             },
+//             body: JSON.stringify({
+//                 // ... Your invoice creation payload goes here
+//                 // Make sure to use invoiceNumber correctly here
+//                 "detail": { "invoice_number": invoiceNumber, "reference": "deal-ref", "invoice_date": "2018-11-12", "currency_code": "USD", "note": "Thank you for your business.", "term": "No refunds after 30 days.", "memo": "This is a long contract", "payment_term": { "term_type": "NET_10", "due_date": "2018-11-22" } }, "invoicer": { "name": { "given_name": "David", "surname": "Larusso" }, "address": { "address_line_1": "1234 First Street", "address_line_2": "337673 Hillside Court", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, "email_address": "merchant@example.com", "phones": [ { "country_code": "001", "national_number": "4085551234", "phone_type": "MOBILE" } ], "website": "www.test.com", "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy- Jb5SeuGj185MNNw6g", "logo_url": "https://example.com/logo.PNG", "additional_notes": "2-4" }, "primary_recipients": [ { "billing_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, "email_address": "bill-me@example.com", "phones": [ { "country_code": "001", "national_number": "4884551234", "phone_type": "HOME" } ], "additional_info_value": "add-info" }, "shipping_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" } } } ], "items": [ { "name": "Yoga Mat", "description": "Elastic mat to practice yoga.", "quantity": "1", "unit_amount": { "currency_code": "USD", "value": "50.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" }, "discount": { "percent": "5" }, "unit_of_measure": "QUANTITY" }, { "name": "Yoga t-shirt", "quantity": "1", "unit_amount": { "currency_code": "USD", "value": "10.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" }, "discount": { "amount": { "currency_code": "USD", "value": "5.00" } }, "unit_of_measure": "QUANTITY" } ], "configuration": { "partial_payment": { "allow_partial_payment": true, "minimum_amount_due": { "currency_code": "USD", "value": "20.00" } }, "allow_tip": true, "tax_calculated_after_discount": true, "tax_inclusive": false, "template_id": "TEMP-19V05281TU309413B" }, "amount": { "breakdown": { "custom": { "label": "Packing Charges", "amount": { "currency_code": "USD", "value": "10.00" } }, "shipping": { "amount": { "currency_code": "USD", "value": "10.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" } }, "discount": { "invoice_discount": { "percent": "5" } } } }
+//             })
+//         });
+//         const invoiceCreationJson = await invoiceCreationResponse.json();
+//         console.log("Invoice Created:", invoiceCreationJson);
 
-        //CREATE THE RECIEPET
-        // Create the receipt
-        const receiptResponse = await fetch(`https://api-m.paypal.com/v1/sales/transactions/${invoiceNumber}/receipt`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${access_token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        const receiptData = await receiptResponse.json();
-        console.log("Receipt Data:", receiptData);
+//         //CREATE THE RECIEPET
+//         // Create the receipt
+//         const receiptResponse = await fetch(`https://api-m.paypal.com/v1/sales/transactions/${invoiceNumber}/receipt`, {
+//             method: 'GET',
+//             headers: {
+//                 'Authorization': `Bearer ${access_token}`,
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//         const receiptData = await receiptResponse.json();
+//         console.log("Receipt Data:", receiptData);
 
-        // Send minimal data to client
-        res.send(orderJson);
-    } catch (err) {
-        console.error('Error:', err);
-        res.status(500).send(err);
-    }
-});
+//         // Send minimal data to client
+//         res.send(orderJson);
+//     } catch (err) {
+//         console.error('Error:', err);
+//         res.status(500).send(err);
+//     }
+// });
+
+// app.post('/complete_order', async (req, res) => {
+//     try {
+//         const access_token = await get_access_token();
+
+//         // Complete the order
+//         const orderResponse = await fetch(endpoint_url + '/v2/checkout/orders/' + req.body.order_id + '/' + req.body.intent, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${access_token}`
+//             }
+//         });
+//         const orderJson = await orderResponse.json();
+//         console.log(orderJson);
+
+//         //         // Generate next invoice number
+//         const invoiceResponse = await fetch('https://api-m.sandbox.paypal.com/v2/invoicing/generate-next-invoice-number', {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${access_token}`,
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//         const invoiceData = await invoiceResponse.json();
+//         let invoiceNumber = invoiceData['invoice_number'];
+//         console.log({ invoice_number: invoiceNumber });
+
+//         // Create the invoice
+//         const invoiceCreationResponse = await fetch('https://api-m.sandbox.paypal.com/v2/invoicing/invoices', {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${access_token}`,
+//                 'Content-Type': 'application/json',
+//                 'Prefer': 'return=representation'
+//             },
+//             body: JSON.stringify({
+//                 "detail": { "invoice_number": invoiceNumber, "reference": "deal-ref", "invoice_date": "2018-11-12", "currency_code": "USD", "note": "Thank you for your business.", "term": "No refunds after 30 days.", "memo": "This is a long contract", "payment_term": { "term_type": "NET_10", "due_date": "2018-11-22" } }, "invoicer": { "name": { "given_name": "David", "surname": "Larusso" }, "address": { "address_line_1": "1234 First Street", "address_line_2": "337673 Hillside Court", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, "email_address": "merchant@example.com", "phones": [ { "country_code": "001", "national_number": "4085551234", "phone_type": "MOBILE" } ], "website": "www.test.com", "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy- Jb5SeuGj185MNNw6g", "logo_url": "https://example.com/logo.PNG", "additional_notes": "2-4" }, "primary_recipients": [ { "billing_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, "email_address": "bill-me@example.com", "phones": [ { "country_code": "001", "national_number": "4884551234", "phone_type": "HOME" } ], "additional_info_value": "add-info" }, "shipping_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" } } } ], "items": [ { "name": "Yoga Mat", "description": "Elastic mat to practice yoga.", "quantity": "1", "unit_amount": { "currency_code": "USD", "value": "50.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" }, "discount": { "percent": "5" }, "unit_of_measure": "QUANTITY" }, { "name": "Yoga t-shirt", "quantity": "1", "unit_amount": { "currency_code": "USD", "value": "10.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" }, "discount": { "amount": { "currency_code": "USD", "value": "5.00" } }, "unit_of_measure": "QUANTITY" } ], "configuration": { "partial_payment": { "allow_partial_payment": true, "minimum_amount_due": { "currency_code": "USD", "value": "20.00" } }, "allow_tip": true, "tax_calculated_after_discount": true, "tax_inclusive": false, "template_id": "TEMP-19V05281TU309413B" }, "amount": { "breakdown": { "custom": { "label": "Packing Charges", "amount": { "currency_code": "USD", "value": "10.00" } }, "shipping": { "amount": { "currency_code": "USD", "value": "10.00" }, "tax": { "name": "Sales Tax", "percent": "7.25" } }, "discount": { "invoice_discount": { "percent": "5" } } } }
+//             })
+//         });
+//         const invoiceCreationJson = await invoiceCreationResponse.json();
+//         console.log("Invoice Created:", invoiceCreationJson);
+
+//         // Extract the invoice ID from the response
+//         const invoiceId = invoiceCreationJson.id;
+//         console.log("Invoice ID:", invoiceId);
+
+//         // Create the receipt
+//         const receiptResponse = await fetch(`https://api-m.paypal.com/v1/sales/transactions/${invoiceId}/receipt`, {
+//             method: 'GET',
+//             headers: {
+//                 'Authorization': `Bearer ${access_token}`,
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//         const receiptData = await receiptResponse.json();
+//         console.log("Receipt Data:", receiptData);
+
+//         // Send minimal data to client
+//         res.send(orderJson);
+//     } catch (err) {
+//         console.error('Error:', err);
+//         res.status(500).send(err);
+//     }
+// });
+
 
 
 // Helper / Utility functions
