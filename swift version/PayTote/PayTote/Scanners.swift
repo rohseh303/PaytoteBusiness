@@ -77,7 +77,7 @@ struct ScanView: View {
             BackgroundView()
             
             VStack {
-                TitleText(buttonBool: $unusedBool, title: "scan", icon: getIcon())
+                TitleText(buttonBool: $unusedBool, title: "manual scan", icon: getIcon())
                     .padding(.horizontal)
                 
                 if scanSelection == .gallery { // scan via gallery
@@ -98,9 +98,9 @@ struct ScanView: View {
     }
     func getIcon() -> String {
         if scanSelection == .camera {
-            return "camera"
+            return "camera.on.rectangle"
         } else if scanSelection == .gallery {
-            return "photo"
+            return "rectangle.stack.badge.plus"
         }
         return "doc.text.viewfinder"
     }
