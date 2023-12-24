@@ -32,8 +32,8 @@ struct SettingsView: View  {
                     VStack {
                         HStack {
                             //dark mode
-                            DarkModeButton()
-                                .frame(height: UIScreen.screenHeight * 0.2)
+//                            DarkModeButton()
+//                                .frame(height: UIScreen.screenHeight * 0.2)
                         }
                         
                         // scan selector
@@ -43,6 +43,13 @@ struct SettingsView: View  {
                         // color
 //                        AccentColorSelector()
 //                            .frame(height: UIScreen.screenHeight * 0.2)
+                        
+                        AddBankOrCard()
+                            .frame(height: UIScreen.screenHeight * 0.2)
+                        
+                        FutureFeaturesView()
+                            .frame(height: UIScreen.screenHeight * 0.5)
+                        
                         if MFMailComposeViewController.canSendMail() {
                                         Button("Send Email") {
                                             self.isShowingMailView = true
@@ -131,7 +138,7 @@ struct ScanDefaultSelector: View {
                                 }
                                 hapticFeedback(type: .rigid)
                             }){
-                                Image(systemName: "camera")
+                                Image(systemName: "camera.on.rectangle")
                                     .font(.largeTitle)
                                     .foregroundColor(Color(ScanDefault.camera.rawValue == settings.scanDefault ? settings.accentColor : "accentAlt"))
                                     .scaleEffect(ScanDefault.camera.rawValue == settings.scanDefault ? 1.25 : 1)
@@ -168,7 +175,7 @@ struct ScanDefaultSelector: View {
                                 hapticFeedback(type: .rigid)
                             }){
                                 VStack {
-                                    Image(systemName: "photo")
+                                    Image(systemName: "rectangle.stack.badge.plus")
                                         .font(.largeTitle)
                                         .foregroundColor(Color(ScanDefault.gallery.rawValue == settings.scanDefault ? settings.accentColor : "accentAlt"))
                                         .scaleEffect(ScanDefault.gallery.rawValue == settings.scanDefault ? 1.25 : 1)
@@ -180,7 +187,7 @@ struct ScanDefaultSelector: View {
                         }
                         Spacer()
                     }
-                    Text("DEFAULT SCANNER: \(settings.scanDefault == ScanDefault.camera.rawValue ? "CAMERA" : settings.scanDefault == ScanDefault.gallery.rawValue ? "GALLERY" : "EITHER")")
+                    Text("CURRENT SCANNER: \(settings.scanDefault == ScanDefault.camera.rawValue ? "CAMERA" : settings.scanDefault == ScanDefault.gallery.rawValue ? "GALLERY" : "EITHER")")
                         .bold()
                         .font(.system(.body, design: .rounded))
                     Spacer()
@@ -447,3 +454,129 @@ struct ContactUsView: View {
     }
 }
 
+struct AddBankOrCard: View {
+    ///``settings``: Imports the UserSettings environment object allowing unified usage and updating of the users settings across all classes.
+    @EnvironmentObject var settings: UserSettings
+    
+    var body: some View {
+        Blur(effect: UIBlurEffect(style: .systemThinMaterial))
+            .opacity(0.9)
+            .cornerRadius(12)
+            .overlay(
+                VStack {
+                    Text("Coming Soon")
+                        .font(.headline)
+                        .padding()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            // Placeholder for future implementation
+                        }) {
+                            VStack {
+                                Spacer()
+                                Text("Add a Card")
+                                    .bold()
+                                    .font(.system(.body, design: .rounded))
+                                Image(systemName: "creditcard") // Replace with your custom image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50, height: 50)
+                                    .padding()
+//                                  .background(Color.blue)
+                                    .cornerRadius(8)
+                            }
+                        }
+                        Spacer()
+                        Button(action: {
+                            // Placeholder for future implementation
+                        }) {
+                            VStack {
+                                Spacer()
+                                Text("Add a Bank")
+                                    .bold()
+                                    .font(.system(.body, design: .rounded))
+                                Image(systemName: "banknote") // Replace with your custom image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50, height: 50)
+                                    .padding()
+                                //                                .background(Color.green)
+                                    .cornerRadius(8)
+                            }
+                        }
+                        Spacer()
+                    }
+                }
+            ).padding(.bottom)
+    }
+}
+
+struct FutureFeaturesView: View {
+    var body: some View {
+        NavigationView {
+            List {
+                Section(header: Text("Account Management")) {
+                    Text("Login/Logout, Account Creation, Password Management")
+                    Text("Personal Information Management")
+                }
+
+                Section(header: Text("Payment Methods")) {
+                    Text("Add, Remove, or Edit Payment Methods")
+                }
+
+                Section(header: Text("Notification Settings")) {
+                    Text("Customize Alerts and App Notifications")
+                }
+
+                Section(header: Text("Privacy Settings")) {
+                    Text("Manage Data Sharing and Privacy Permissions")
+                }
+
+                Section(header: Text("Security Settings")) {
+                    Text("Two-Factor Authentication, Touch ID, Face ID")
+                }
+
+                Section(header: Text("Data Sync and Backup")) {
+                    Text("Sync Across Devices, Cloud Backups")
+                }
+
+                Section(header: Text("Receipt Management")) {
+                    Text("Customize Receipt Categories/Tags")
+                }
+
+                Section(header: Text("Currency and Language")) {
+                    Text("Select Preferred Currency and Language")
+                }
+
+                Section(header: Text("Budget Management")) {
+                    Text("Set Spending Limits and Track Budgets")
+                }
+
+                Section(header: Text("Export Options")) {
+                    Text("Export Data in Various Formats")
+                }
+
+                Section(header: Text("UI Customization")) {
+                    Text("Themes, Font Sizes, Display Modes")
+                }
+
+                Section(header: Text("Help and Support")) {
+                    Text("FAQs, Contact Support, User Guides")
+                }
+
+                Section(header: Text("Legal and About")) {
+                    Text("App Info, Terms of Service, Privacy Policy")
+                }
+
+                Section(header: Text("Feedback and Suggestions")) {
+                    Text("Provide Feedback and Suggestions for Improvements")
+                }
+
+                Section(header: Text("Integration Settings")) {
+                    Text("Manage Integrations with Other Services")
+                }
+            }
+            .navigationTitle("Future Features")
+        }.padding(.bottom)
+    }
+}

@@ -128,13 +128,13 @@ struct ScannerSelectView: View {
                         // the title and body
                         VStack (alignment: .center){
                             Spacer()
-                            Image(systemName: "camera")
+                            Image(systemName: "camera.on.rectangle")
                                 .font(.system(size: 50))
                             VStack(alignment: .center) {
                                 Text("Camera")
                                     .font(.system(size: 22, weight: .bold, design: .rounded))
                                     .padding(.bottom, 5)
-                                Text("Use the camera to scan a physical item.")
+                                Text("Scan Physical Receipts with Your Camera")
                                     .font(.system(size: 14, weight: .regular, design: .rounded))
                                     .frame(width: UIScreen.screenWidth * 0.35)
                                     .multilineTextAlignment(.center)
@@ -158,13 +158,13 @@ struct ScannerSelectView: View {
                         // the title and body
                         VStack (alignment: .center){
                             Spacer()
-                            Image(systemName: "photo")
+                            Image(systemName: "rectangle.stack.badge.plus")
                                 .font(.system(size: 50))
                             VStack(alignment: .center) {
-                                Text("Gallery")
+                                Text("Photos")
                                     .font(.system(size: 22, weight: .bold, design: .rounded))
                                     .padding(.bottom, 5)
-                                Text("Use the gallery to import an image.")
+                                Text("Add Existing Photos from your Gallery")
                                     .font(.system(size: 14, weight: .regular, design: .rounded))
                                     .multilineTextAlignment(.center)
                                     .frame(width: UIScreen.screenWidth * 0.3)
