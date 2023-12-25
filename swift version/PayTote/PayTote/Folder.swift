@@ -50,20 +50,20 @@ extension Folder {
     /// Defines the title of folders, with their respective icons and colours. NEEDS UPDATING TO HAVE NEW FOLDERS WE HAVE CREATED.
     static let folders = [(title: "Document", icon: "doc.plaintext", color: "text"),
                               //(title: "Retail", icon: "tag", color: "lightYellow"), too vague
-                              (title: "Groceries", icon: "cart", color: "UI2"),
-                              (title: "Technology", icon: "desktopcomputer", color: "UI3"),
-                              (title: "Hardware", icon: "wrench", color: "UI4"),
-                              (title: "Appliance", icon: "shippingbox", color: "UI5"),
-                              (title: "Pets", icon: "hare", color: "UI6"),
-                              (title: "Health & Beauty", icon: "bandage", color: "UI7"),
+                              (title: "Groceries", icon: "cart.fill", color: "UI2"),
+                              (title: "Technology", icon: "laptopcomputer", color: "UI3"),
+                              (title: "Hardware", icon: "hammer.fill", color: "UI4"),
+                              (title: "Appliance", icon: "fridge.fill", color: "UI5"),
+                              (title: "Pets", icon: "pawprint.fill", color: "UI6"),
+                              (title: "Health & Beauty", icon: "cross.case.fill", color: "UI7"),
                               (title: "Home & Garden", icon: "bed.double", color: "UI8"),
-                              (title: "Office Supplies", icon: "printer", color: "UI9"),
-                              (title: "Apparel", icon: "bag", color: "UI10"),
-                              (title: "Arts & Entertainment", icon: "pencil.and.outline", color: "UI11"),
-                              (title: "Software", icon: "chevron.left.slash.chevron.right", color: "UI12"),
-                              (title: "Toys & Games", icon: "gamecontroller", color: "UI13"),
-                              (title: "Sports", icon: "figure.walk", color: "UI15"),
-                              (title: "Vehicles", icon: "car", color: "UI16")
+                              (title: "Office Supplies", icon: "scissors", color: "UI9"),
+                              (title: "Apparel", icon: "tshirt.fill", color: "UI10"),
+                              (title: "Arts & Entertainment", icon: "paintpalette.fill", color: "UI11"),
+                              (title: "Software", icon: "app.badge.fill", color: "UI12"),
+                              (title: "Toys & Games", icon: "puzzelpeice.fill", color: "UI13"),
+                              (title: "Sports", icon: "sportscourt.fill", color: "UI15"),
+                              (title: "Vehicles", icon: "car.fill", color: "UI16")
     ]
     
     ///``getIcon``
