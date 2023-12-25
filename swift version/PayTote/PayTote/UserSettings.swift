@@ -64,7 +64,7 @@ class UserSettings: ObservableObject {
         /// Dark mode defaults to false. Light mode Enabled by default.
         self.darkMode = UserDefaults.standard.object(forKey: "darkMode") as? Bool ?? false
         /// Accent color defaults to "UI2". Color is Receipted Fluro Green by default.
-        self.accentColor = UserDefaults.standard.object(forKey: "accentColor") as? String ?? "UI2"
+        self.accentColor = UserDefaults.standard.object(forKey: "accentColor") as? String ?? "black"
         /// Dev Mode defaults to false. Regular mode enabled by default.
         self.devMode = UserDefaults.standard.object(forKey: "devMode") as? Bool ?? false
         /// Scan Default defaults to choose. Allows user to choose their scan method.
