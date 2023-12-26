@@ -134,10 +134,7 @@ app.post('/complete_order', (req, res) => {
                                                     //                                 "phones": [ { "country_code": "001", "national_number": "4884551234", "phone_type": "HOME" } ], "additional_info_value": "add-info" }, 
                                                     //                                 "shipping_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" } } 
                                                     //                             } ], 
-                                                    "due amount": {
-                                                        "currency_code": "USD",
-                                                        "value": order_data_json['purchase_units'][0]['amount']['value']
-                                                    }
+                                                    // "due_amount": { "currency_code": 'USD', "value": '100.00' }
                                                                             })
                         })
                         .then(response => response.json())
