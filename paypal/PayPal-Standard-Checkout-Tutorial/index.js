@@ -25,7 +25,6 @@ const endpoint_url = environment === 'sandbox' ? 'https://api-m.sandbox.paypal.c
  * @throws {Error} If there is an error creating the order.
  */
 
-
 app.post('/create_order', (req, res) => {
     get_access_token()
         .then(access_token => {
@@ -113,26 +112,32 @@ app.post('/complete_order', (req, res) => {
                             body: JSON.stringify({ "detail": {
                                                      "invoice_number": invoiceNumber, 
                                                      "reference": "deal-ref", 
-                                                     "invoice_date": "2018-11-12", 
+                                                    //  "invoice_date": "2018-11-12", 
                                                      "currency_code": "USD", 
-                                                     "note": "Thank you for your business.", 
+                                                     "note": "THIS IS A RECEIPT, not an invoice, please ignore the title", 
                                                      "term": "No refunds after 30 days.", 
                                                      "memo": "This is a long contract", 
-                                                     "payment_term": { "term_type": "NET_10", "due_date": "2018-11-22" } }, 
+                                                    //  "payment_term": { "term_type": "NET_10", "due_date": "2018-11-22" } 
+                                                    }, 
                                                      "invoicer": { "name": { "given_name": "Rohan", "surname": "Sehgal" }, 
                                                      "email_address": "sb-e9ro628887181@business.example.com", 
                                                      "phones": [ { "country_code": "001", "national_number": "4087025863", "phone_type": "MOBILE" } ], 
-                                                     "website": "www.test.com", 
-                                                     "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy- Jb5SeuGj185MNNw6g", 
-                                                     "logo_url": "https://example.com/logo.PNG", 
-                                                     "additional_notes": "2-4" }, 
-                                                     "primary_recipients": [ { "billing_info": { "name": { 
-                                                                                    "given_name": "Stephanie", "surname": "Meyers" }, 
-                                                                                    "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, 
-                                                                                    "email_address": "bill-me@example.com", 
-                                                                                    "phones": [ { "country_code": "001", "national_number": "4884551234", "phone_type": "HOME" } ], "additional_info_value": "add-info" }, 
-                                                                                    "shipping_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" } } 
-                                                                                } ], 
+                                                    //  "website": "www.test.com", 
+                                                    //  "tax_id": "ABcNkWSfb5ICTt73nD3QON1fnnpgNKBy- Jb5SeuGj185MNNw6g", 
+                                                    //  "logo_url": "https://example.com/logo.PNG", 
+                                                    //  "additional_notes": "2-4" 
+                                                    }, 
+                                                    //  "primary_recipients": [ { "billing_info": { "name": { 
+                                                    //                                 "given_name": "Stephanie", "surname": "Meyers" }, 
+                                                    //                                 "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" }, 
+                                                    //                                 "email_address": "bill-me@example.com", 
+                                                    //                                 "phones": [ { "country_code": "001", "national_number": "4884551234", "phone_type": "HOME" } ], "additional_info_value": "add-info" }, 
+                                                    //                                 "shipping_info": { "name": { "given_name": "Stephanie", "surname": "Meyers" }, "address": { "address_line_1": "1234 Main Street", "admin_area_2": "Anytown", "admin_area_1": "CA", "postal_code": "98765", "country_code": "US" } } 
+                                                    //                             } ], 
+                                                    "due amount": {
+                                                        "currency_code": "USD",
+                                                        "value": order_data_json['purchase_units'][0]['amount']['value']
+                                                    }
                                                                             })
                         })
                         .then(response => response.json())
