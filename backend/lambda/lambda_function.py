@@ -16,7 +16,7 @@ def lambda_handler(event, context):
         'Content-Type': 'application/json'
     }
     
-    client = boto3.client('lambda')
+        
     
     # Define the URL
     url = f'https://connect.squareup.com/v2/orders/{order_id}'
