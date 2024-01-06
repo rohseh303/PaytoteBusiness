@@ -85,6 +85,7 @@ const Contact = () => {
                 <div className="container mx-auto my-8 px-4 lg:px-20" data-aos="zoom-in">
 
                 <div>
+                    <div> Click here to sign your store up on PayTote!</div>
                     <Authorize/>
                 </div>
 
